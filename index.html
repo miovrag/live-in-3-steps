@@ -4,7 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light" />
-  <title>Live in 3 Steps</title>
+  <title>Live in 3 Steps — CustomGPT.ai</title>
+  <meta name="description" content="Deploy a custom AI agent in 3 steps — no coding, no engineering costs, live in 15 minutes. Connect your data, customize your agent, and go live today." />
+  <meta property="og:title" content="Live in 3 Steps — CustomGPT.ai" />
+  <meta property="og:description" content="Deploy a custom AI agent in 3 steps — no coding, no engineering costs, live in 15 minutes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://live-in-3-steps.vercel.app" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Live in 3 Steps — CustomGPT.ai" />
+  <meta name="twitter:description" content="Deploy a custom AI agent in 3 steps — no coding, no engineering costs, live in 15 minutes." />
   <link rel="stylesheet" href="/assets/colors_and_type.css">
   <style>
     /* P3 — richer primaries on wide-gamut displays */
@@ -308,6 +316,68 @@
     .cta-btn:hover  { background: var(--cg-primary-hover); }
     .cta-btn:active { background: var(--cg-primary-active); }
 
+    /* ── CTA sub-label ── */
+    .cta-sub {
+      margin-top: var(--cg-space-3);
+      font-size: var(--cg-caption-12-size);
+      color: var(--cg-fg-3);
+      font-weight: var(--cg-body-14-weight);
+    }
+
+    /* ── Card entrance animation ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      animation: fadeUp 0.36s var(--cg-ease-standard) both;
+    }
+    #card1 { animation-delay: 0ms; }
+    #card2 { animation-delay: 80ms; }
+    #card3 { animation-delay: 160ms; }
+
+    /* ── Illustration loading shimmer ── */
+    @keyframes shimmer {
+      0%   { background-position: -400px 0; }
+      100% { background-position:  400px 0; }
+    }
+
+    .card1-illustration {
+      background: linear-gradient(90deg,
+        var(--cg-gray-100) 25%,
+        var(--cg-gray-50)  50%,
+        var(--cg-gray-100) 75%);
+      background-size: 800px 100%;
+      animation: shimmer 1.4s infinite linear;
+    }
+
+    .card1-illustration.loaded {
+      background: none;
+      animation: none;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .cards {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        margin-inline: auto;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .headline { font-size: var(--cg-h1-size); }
+      .badges   { flex-direction: column; align-items: center; gap: var(--cg-space-4); }
+      body      { padding: var(--cg-space-10) var(--cg-space-5); }
+    }
+
+    /* ── prefers-reduced-motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      .card          { animation: none; opacity: 1; transform: none; }
+      .card1-illustration { animation: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -315,38 +385,38 @@
 
     <p class="eyebrow">How It Works</p>
     <h1 class="headline">Live in 3 steps</h1>
-    <p class="subtext">No waiting months to deploy AI in your business. Start testing today.</p>
+    <p class="subtext">No waiting months. Start testing today — go live in under 15 minutes.</p>
 
     <div class="cards">
 
       <!-- Card 1 -->
-      <div class="card" id="card1">
+      <div class="card" id="card1" role="article" aria-label="Step 1: Connect data">
         <div class="card1-illustration" id="card1-illus">
-          <img id="gif-card1" src="/assets/card1.gif" alt="Integrations" width="400" height="220" />
+          <img id="gif-card1" src="/assets/card1.gif" alt="Connecting data sources to your AI agent" width="400" height="220" loading="lazy" />
         </div>
-        <div class="step-badge">1</div>
+        <div class="step-badge" aria-hidden="true">1</div>
         <h2 class="card-title">Connect data</h2>
-        <p class="card-desc">Upload documents, connect your website, or sync your favorite tools. Over 1,400 file types supported.</p>
+        <p class="card-desc">Upload documents, connect your website, or sync tools you already use.</p>
       </div>
 
       <!-- Card 2 -->
-      <div class="card" id="card2">
+      <div class="card" id="card2" role="article" aria-label="Step 2: Customize">
         <div class="card1-illustration" id="card2-illus">
-          <img id="gif-card2" src="/assets/card2.gif" alt="Customize illustration" width="400" height="220" />
+          <img id="gif-card2" src="/assets/card2.gif" alt="Customizing your AI agent's appearance and persona" width="400" height="220" loading="lazy" />
         </div>
-        <div class="step-badge">2</div>
+        <div class="step-badge" aria-hidden="true">2</div>
         <h2 class="card-title">Customize</h2>
         <p class="card-desc">Tailor your AI's appearance, persona, and behavior to match your brand and specific business needs.</p>
       </div>
 
       <!-- Card 3 -->
-      <div class="card" id="card3">
+      <div class="card" id="card3" role="article" aria-label="Step 3: Deploy">
         <div class="card1-illustration" id="card3-illus">
-          <img id="gif-card3" src="/assets/card3.gif" alt="Deploy illustration" width="400" height="220" />
+          <img id="gif-card3" src="/assets/card3.gif" alt="Deploying your AI agent to your website or as a link" width="400" height="220" loading="lazy" />
         </div>
-        <div class="step-badge">3</div>
+        <div class="step-badge" aria-hidden="true">3</div>
         <h2 class="card-title">Deploy</h2>
-        <p class="card-desc">Embed on your website, share a link, or integrate via API. Live wherever your customers need help.</p>
+        <p class="card-desc">Share a link, embed on your site, or connect via API — meet your customers wherever they are.</p>
       </div>
 
     </div>
@@ -377,7 +447,8 @@
     </div>
 
     <!-- CTA -->
-    <a href="#" class="cta-btn">Try for free</a>
+    <a href="https://app.customgpt.ai/register" class="cta-btn">Try for free</a>
+    <p class="cta-sub">No credit card required</p>
 
   </div>
   <script>
@@ -395,6 +466,8 @@
       ctx.drawImage(img, ox, oy, sw, sh);
     }
 
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     function hoverPlay(cardId, illusId, imgId, captureDelay) {
       var card  = document.getElementById(cardId);
       var illus = document.getElementById(illusId);
@@ -403,6 +476,9 @@
 
       illus.style.position = 'relative';
       img.style.cssText = 'display:block;width:100%;height:220px;object-fit:cover;object-position:center top;';
+
+      // Clear shimmer once image data is available
+      function markLoaded() { illus.classList.add('loaded'); }
 
       var canvas = document.createElement('canvas');
       var ctx    = canvas.getContext('2d', { colorSpace: 'display-p3' })
@@ -417,6 +493,7 @@
       }
 
       function setup() {
+        markLoaded();
         canvas.width  = illus.offsetWidth  || 400;
         canvas.height = illus.offsetHeight || 220;
         drawCover(ctx, img, canvas.width, canvas.height);
@@ -428,6 +505,9 @@
 
       if (img.complete && img.naturalWidth) { setup(); }
       else { img.addEventListener('load', setup, { once: true }); }
+
+      // Skip hover interaction entirely when user prefers reduced motion
+      if (reducedMotion) return;
 
       card.addEventListener('mouseenter', function() {
         hovered = true;
