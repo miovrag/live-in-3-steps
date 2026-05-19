@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <title>Live in 3 Steps</title>
+  <link rel="stylesheet" href="/assets/colors_and_type.css">
+  <style>
+    /* P3 — richer primaries on wide-gamut displays */
+    @media (color-gamut: p3) {
+      :root {
+        --cg-primary:        color(display-p3 0.42 0.38 0.95);
+        --cg-primary-hover:  color(display-p3 0.38 0.34 0.87);
+        --cg-primary-active: color(display-p3 0.33 0.30 0.78);
+      }
+    }
+
+    /* HDR — maximum P3 saturation, no glow on button */
+    @media (dynamic-range: high) {
+      :root {
+        --cg-primary:        color(display-p3 0.38 0.30 1.00);
+        --cg-primary-hover:  color(display-p3 0.33 0.26 0.92);
+        --cg-primary-active: color(display-p3 0.28 0.22 0.84);
+      }
+      .eyebrow {
+        text-shadow: 0 0 12px color(display-p3 0.38 0.30 1.00 / 0.35);
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--cg-font-sans);
+      background: var(--cg-bg-body);
+      color: var(--cg-fg-2);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--cg-space-16) var(--cg-space-6);
+    }
+
+    .section {
+      max-width: 1100px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* ── Header ── */
+    .eyebrow {
+      font-size: var(--cg-overline-12-size);
+      font-weight: var(--cg-overline-12-weight);
+      line-height: var(--cg-overline-12-lh);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--cg-primary);
+      margin-bottom: var(--cg-space-4);
+    }
+
+    .headline {
+      font-size: var(--cg-display-1-size);
+      font-weight: var(--cg-display-1-weight);
+      line-height: var(--cg-display-1-lh);
+      color: var(--cg-fg-1);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--cg-space-4);
+    }
+
+    .subtext {
+      font-size: var(--cg-body-16-size);
+      font-weight: var(--cg-body-16-weight);
+      line-height: var(--cg-body-16-lh);
+      color: var(--cg-fg-3);
+      margin-bottom: var(--cg-space-12);
+    }
+
+    /* ── Cards grid ── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--cg-space-5);
+      margin-bottom: var(--cg-space-10);
+    }
+
+    .card {
+      background: var(--cg-bg-muted);
+      border: 1px solid var(--cg-gray-200);
+      border-radius: var(--cg-radius-3x);
+      padding: var(--cg-space-9) var(--cg-space-7) var(--cg-space-7);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: var(--cg-shadow-card);
+      will-change: box-shadow, background;
+      transition: box-shadow var(--cg-dur-med) var(--cg-ease-standard),
+                  background var(--cg-dur-med) var(--cg-ease-standard);
+    }
+
+    .card:hover {
+      background: var(--cg-bg-card);
+      box-shadow: var(--cg-shadow-default);
+    }
+
+    @media (dynamic-range: high) {
+      .card:hover {
+        background: color(display-p3 1 1 1);
+        border-color: color(display-p3 1 1 1);
+      }
+    }
+
+    .step-badge {
+      width: var(--cg-space-10);
+      height: var(--cg-space-10);
+      background: var(--cg-primary);
+      border-radius: var(--cg-radius-2x);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cg-fg-on-primary);
+      font-size: var(--cg-h3-size);
+      font-weight: var(--cg-h3-weight);
+      margin-bottom: var(--cg-space-6);
+    }
+
+    .card-title {
+      font-size: var(--cg-h3-size);
+      font-weight: var(--cg-h3-weight);
+      line-height: var(--cg-h3-lh);
+      color: var(--cg-fg-1);
+      margin-bottom: var(--cg-space-3);
+    }
+
+    .card-desc {
+      font-size: var(--cg-body-14-size);
+      font-weight: var(--cg-body-14-weight);
+      line-height: var(--cg-body-14-lh);
+      color: var(--cg-fg-3);
+      margin-bottom: var(--cg-space-6);
+      max-width: 260px;
+    }
+
+    /* ── Card illustrations ── */
+    .card1-illustration {
+      width: calc(100% + var(--cg-space-7) * 2);
+      margin-left: calc(-1 * var(--cg-space-7));
+      margin-right: calc(-1 * var(--cg-space-7));
+      margin-top: calc(-1 * var(--cg-space-9));
+      margin-bottom: var(--cg-space-6);
+      border-radius: var(--cg-radius-3x) var(--cg-radius-3x) 0 0;
+      overflow: hidden;
+      flex-shrink: 0;
+      height: 220px;
+      min-height: 220px;
+    }
+
+    .card1-illustration img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* ── Mockup shared ── */
+    .mockup {
+      width: 100%;
+      background: var(--cg-gray-50);
+      border: 1px solid var(--cg-gray-200);
+      border-radius: var(--cg-radius-2x);
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .mockup-bar {
+      background: var(--cg-bg-card);
+      border-bottom: 1px solid var(--cg-gray-200);
+      padding: var(--cg-space-2) var(--cg-space-3);
+      font-size: var(--cg-caption-12-size);
+      font-weight: var(--cg-label-12-weight);
+      color: var(--cg-fg-3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ── Chat mockup ── */
+    .live-dot {
+      display: flex;
+      align-items: center;
+      gap: var(--cg-space-1);
+      font-size: var(--cg-caption-12-size);
+      color: var(--cg-success-500);
+      font-weight: var(--cg-label-12-weight);
+    }
+
+    .live-dot::before {
+      content: '';
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background: var(--cg-success-500);
+      border-radius: var(--cg-radius-full);
+    }
+
+    .chat-body {
+      padding: var(--cg-space-2) var(--cg-space-3) var(--cg-space-3);
+      display: flex;
+      flex-direction: column;
+      gap: var(--cg-space-2);
+    }
+
+    .chat-line {
+      height: 8px;
+      background: var(--cg-gray-200);
+      border-radius: var(--cg-radius-base);
+    }
+
+    .chat-line.short  { width: 55%; }
+    .chat-line.medium { width: 75%; }
+    .chat-line.long   { width: 90%; }
+    .chat-line.xshort { width: 35%; }
+
+    .chat-input-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: var(--cg-space-2);
+    }
+
+    .chat-input-fake {
+      flex: 1;
+      height: 28px;
+      background: var(--cg-bg-card);
+      border: 1px solid var(--cg-gray-200);
+      border-radius: var(--cg-radius-full);
+      margin-right: var(--cg-space-2);
+    }
+
+    .chat-send {
+      width: 28px;
+      height: 28px;
+      background: var(--cg-primary);
+      border-radius: var(--cg-radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .chat-send svg { width: 13px; height: 13px; fill: var(--cg-fg-on-primary); }
+
+    /* ── Footer badges ── */
+    .badges {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--cg-space-8);
+      margin-bottom: var(--cg-space-8);
+      flex-wrap: wrap;
+    }
+
+    .badge-item {
+      display: flex;
+      align-items: center;
+      gap: var(--cg-space-2);
+      font-size: var(--cg-label-14-size);
+      font-weight: var(--cg-label-14-weight);
+      line-height: var(--cg-label-14-lh);
+      color: var(--cg-fg-2);
+    }
+
+    .badge-check {
+      width: var(--cg-space-6);
+      height: var(--cg-space-6);
+      background: var(--cg-primary-100, #EAE8FD);
+      border-radius: var(--cg-radius-2x);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .badge-check svg { width: 14px; height: 14px; stroke: var(--cg-primary); fill: none; }
+
+    /* ── CTA button (btn-primary lg) ── */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      padding: 0 var(--cg-space-6);
+      background: var(--cg-primary);
+      color: var(--cg-fg-on-primary);
+      font-family: var(--cg-font-sans);
+      font-size: var(--cg-btn-l-size);
+      font-weight: var(--cg-btn-l-weight);
+      line-height: var(--cg-btn-l-lh);
+      letter-spacing: var(--cg-btn-l-ls);
+      border-radius: var(--cg-radius-2x);
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background var(--cg-dur-fast) var(--cg-ease-standard);
+    }
+
+    .cta-btn:hover  { background: var(--cg-primary-hover); }
+    .cta-btn:active { background: var(--cg-primary-active); }
+
+  </style>
+</head>
+<body>
+  <div class="section">
+
+    <p class="eyebrow">How It Works</p>
+    <h1 class="headline">Live in 3 steps</h1>
+    <p class="subtext">No waiting months to deploy AI in your business. Start testing today.</p>
+
+    <div class="cards">
+
+      <!-- Card 1 -->
+      <div class="card" id="card1">
+        <div class="card1-illustration" id="card1-illus">
+          <img id="gif-card1" src="/assets/card1.gif" alt="Integrations" width="400" height="220" />
+        </div>
+        <div class="step-badge">1</div>
+        <h2 class="card-title">Connect data</h2>
+        <p class="card-desc">Upload documents, connect your website, or sync your favorite tools. Over 1,400 file types supported.</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card" id="card2">
+        <div class="card1-illustration" id="card2-illus">
+          <img id="gif-card2" src="/assets/card2.gif" alt="Customize illustration" width="400" height="220" />
+        </div>
+        <div class="step-badge">2</div>
+        <h2 class="card-title">Customize</h2>
+        <p class="card-desc">Tailor your AI's appearance, persona, and behavior to match your brand and specific business needs.</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card" id="card3">
+        <div class="card1-illustration" id="card3-illus">
+          <img id="gif-card3" src="/assets/card3.gif" alt="Deploy illustration" width="400" height="220" />
+        </div>
+        <div class="step-badge">3</div>
+        <h2 class="card-title">Deploy</h2>
+        <p class="card-desc">Embed on your website, share a link, or integrate via API. Live wherever your customers need help.</p>
+      </div>
+
+    </div>
+
+    <!-- Badges -->
+    <div class="badges">
+      <div class="badge-item">
+        <div class="badge-check">
+          <!-- code-off icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 20l4-16"/><path d="M6.5 8.5L3 12l3.5 3.5"/><path d="M17.5 8.5L21 12l-3.5 3.5"/></svg>
+        </div>
+        No coding required
+      </div>
+      <div class="badge-item">
+        <div class="badge-check">
+          <!-- currency-dollar-off -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 2 0 1 0 0 4M9.5 15a3.5 2 0 1 0 7 0"/><path d="M12 6v2M12 16v2"/></svg>
+        </div>
+        No engineering costs
+      </div>
+      <div class="badge-item">
+        <div class="badge-check">
+          <!-- rocket icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        Live in 15 minutes
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <a href="#" class="cta-btn">Try for free</a>
+
+  </div>
+  <script>
+    // Draw img into canvas replicating object-fit:cover + object-position:center top
+    function drawCover(ctx, img, cw, ch) {
+      var iw = img.naturalWidth;
+      var ih = img.naturalHeight;
+      if (!iw || !ih) { ctx.drawImage(img, 0, 0, cw, ch); return; }
+      var scale = Math.max(cw / iw, ch / ih);
+      var sw = iw * scale;
+      var sh = ih * scale;
+      var ox = (cw - sw) / 2;  // center horizontal
+      var oy = 0;               // top vertical
+      ctx.clearRect(0, 0, cw, ch);
+      ctx.drawImage(img, ox, oy, sw, sh);
+    }
+
+    function hoverPlay(cardId, illusId, imgId, captureDelay) {
+      var card  = document.getElementById(cardId);
+      var illus = document.getElementById(illusId);
+      var img   = document.getElementById(imgId);
+      var hovered = false;
+
+      illus.style.position = 'relative';
+      img.style.cssText = 'display:block;width:100%;height:220px;object-fit:cover;object-position:center top;';
+
+      var canvas = document.createElement('canvas');
+      var ctx    = canvas.getContext('2d', { colorSpace: 'display-p3' })
+                   || canvas.getContext('2d');
+      canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;transition:opacity 0.22s cubic-bezier(.2,.7,.3,1);';
+
+      function capture() {
+        canvas.width  = illus.offsetWidth  || 400;
+        canvas.height = illus.offsetHeight || 220;
+        drawCover(ctx, img, canvas.width, canvas.height);
+        if (!canvas.parentNode) illus.appendChild(canvas);
+      }
+
+      function setup() {
+        canvas.width  = illus.offsetWidth  || 400;
+        canvas.height = illus.offsetHeight || 220;
+        drawCover(ctx, img, canvas.width, canvas.height);
+        illus.appendChild(canvas);
+        if (captureDelay) {
+          setTimeout(capture, captureDelay);
+        }
+      }
+
+      if (img.complete && img.naturalWidth) { setup(); }
+      else { img.addEventListener('load', setup, { once: true }); }
+
+      card.addEventListener('mouseenter', function() {
+        hovered = true;
+        drawCover(ctx, img, canvas.width, canvas.height);
+        canvas.style.opacity = '1';
+        canvas.style.pointerEvents = '';
+        var base = img.src.split('?')[0];
+        img.addEventListener('load', function onLoad() {
+          img.removeEventListener('load', onLoad);
+          if (!hovered) return;
+          canvas.style.opacity = '0';
+          canvas.style.pointerEvents = 'none';
+        });
+        img.src = base + '?t=' + Date.now();
+      });
+
+      card.addEventListener('mouseleave', function() {
+        hovered = false;
+        drawCover(ctx, img, canvas.width, canvas.height);
+        canvas.style.opacity = '1';
+        canvas.style.pointerEvents = '';
+      });
+    }
+
+    hoverPlay('card1', 'card1-illus', 'gif-card1');
+    hoverPlay('card2', 'card2-illus', 'gif-card2');
+    hoverPlay('card3', 'card3-illus', 'gif-card3', 5210);
+  </script>
+</body>
+</html>
