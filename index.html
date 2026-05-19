@@ -49,8 +49,14 @@
       padding: var(--cg-space-16) var(--cg-space-6);
     }
 
+    /* ── Fluid card geometry — scales with viewport ── */
+    :root {
+      --card-pad-x:   clamp(16px, 2.5vw, 28px);
+      --card-pad-top: clamp(20px, 3.3vw, 36px);
+    }
+
     .section {
-      max-width: 1100px;
+      max-width: clamp(600px, 94vw, 1600px);
       width: 100%;
       text-align: center;
     }
@@ -87,7 +93,7 @@
     .cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: var(--cg-space-5);
+      gap: clamp(12px, 1.8vw, 20px);
       margin-bottom: var(--cg-space-10);
     }
 
@@ -95,7 +101,7 @@
       background: var(--cg-bg-muted);
       border: 1px solid var(--cg-gray-200);
       border-radius: var(--cg-radius-3x);
-      padding: var(--cg-space-9) var(--cg-space-7) var(--cg-space-7);
+      padding: var(--card-pad-top) var(--card-pad-x) var(--card-pad-x);
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -149,23 +155,22 @@
       max-width: 260px;
     }
 
-    /* ── Card illustrations ── */
+    /* ── Card illustrations — fluid, 8:5 aspect ratio ── */
     .card1-illustration {
-      width: calc(100% + var(--cg-space-7) * 2);
-      margin-left: calc(-1 * var(--cg-space-7));
-      margin-right: calc(-1 * var(--cg-space-7));
-      margin-top: calc(-1 * var(--cg-space-9));
+      width: calc(100% + var(--card-pad-x) * 2);
+      margin-left: calc(-1 * var(--card-pad-x));
+      margin-right: calc(-1 * var(--card-pad-x));
+      margin-top: calc(-1 * var(--card-pad-top));
       margin-bottom: var(--cg-space-6);
       border-radius: var(--cg-radius-3x) var(--cg-radius-3x) 0 0;
       overflow: hidden;
       flex-shrink: 0;
-      height: 220px;
-      min-height: 220px;
+      aspect-ratio: 8 / 5;
     }
 
     .card1-illustration img {
       width: 100%;
-      height: 220px;
+      height: 100%;
       object-fit: cover;
       object-position: center top;
       display: block;
@@ -367,6 +372,10 @@
     }
 
     @media (max-width: 600px) {
+      :root {
+        --card-pad-x:   16px;
+        --card-pad-top: 20px;
+      }
       .headline { font-size: var(--cg-h1-size); }
       .badges   { flex-direction: column; align-items: center; gap: var(--cg-space-4); }
       body      { padding: var(--cg-space-10) var(--cg-space-5); }
@@ -475,7 +484,7 @@
       var hovered = false;
 
       illus.style.position = 'relative';
-      img.style.cssText = 'display:block;width:100%;height:220px;object-fit:cover;object-position:center top;';
+      img.style.cssText = 'display:block;width:100%;height:100%;object-fit:cover;object-position:center top;';
 
       // Clear shimmer once image data is available
       function markLoaded() { illus.classList.add('loaded'); }
@@ -487,7 +496,7 @@
 
       function capture() {
         canvas.width  = illus.offsetWidth  || 400;
-        canvas.height = illus.offsetHeight || 220;
+        canvas.height = illus.offsetHeight || illus.offsetWidth * 0.625;
         drawCover(ctx, img, canvas.width, canvas.height);
         if (!canvas.parentNode) illus.appendChild(canvas);
       }
@@ -495,7 +504,7 @@
       function setup() {
         markLoaded();
         canvas.width  = illus.offsetWidth  || 400;
-        canvas.height = illus.offsetHeight || 220;
+        canvas.height = illus.offsetHeight || illus.offsetWidth * 0.625;
         drawCover(ctx, img, canvas.width, canvas.height);
         illus.appendChild(canvas);
         if (captureDelay) {
