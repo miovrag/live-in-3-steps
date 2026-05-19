@@ -84,7 +84,7 @@
     }
 
     .card {
-      background: var(--cg-bg-card);
+      background: var(--cg-bg-muted);
       border: 1px solid var(--cg-gray-200);
       border-radius: var(--cg-radius-3x);
       padding: var(--cg-space-9) var(--cg-space-7) var(--cg-space-7);
@@ -104,10 +104,6 @@
     }
 
     @media (dynamic-range: high) {
-      /* Rest: SDR white — hover: HDR white (visibly brighter on XDR/ProMotion displays) */
-      .card {
-        background: color(display-p3 1 1 1 / 0.85);
-      }
       .card:hover {
         background: color(display-p3 1 1 1);
         border-color: color(display-p3 1 1 1);
